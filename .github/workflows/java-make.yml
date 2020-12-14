@@ -20,4 +20,4 @@ jobs:
     - name: build-make
       run: |
         cd s4/T000006
-        make runTestCase
+        make runTestCaseWithTestFile

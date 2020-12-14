@@ -12,7 +12,7 @@ run:
 #	java -classpath "../.." s4.T000006/TestCase
 
 # runやrunHelloなどがファイル名ではなくターゲット名であることをmakeに伝えるための定義
-.PNOHY: run runHello runFrequencer runInformationEstimator runTestCase
+.PNOHY: run runHello runFrequencer runInformationEstimator runTestCase runTestCaseWithTestFile
 
 # コンパイルしてある.classを使ってコマンドを実行するための定義
 # 使い方： "make runFrequencer", "make runTestCase" など
@@ -31,6 +31,8 @@ runInformationEstimator: InformationEstimator.class
 runTestCase: TestCase.class
 	java -classpath "../.." s4.T000006/TestCase
 
+runTestCaseWithTestFile: TestCase.class
+	java -classpath "../.." s4.T000006/TestCase FrequenceTest.dat
 
 # *.classをコンパイルするための定義
 Hello.class: Hello.java

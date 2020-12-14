@@ -2,6 +2,12 @@ package s4.T000006; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /*
 interface FrequencerInterface {     // This interface provides the design for frequency counter.
     void setTarget(byte[]  target); // set the data to search.
@@ -53,7 +59,14 @@ public class TestCase {
 	    System.out.println("Exception occurred in Frequencer Object");
 	    c++;
 	}
-
+    if (args.length > 0){
+        try {
+            FrequenceTestFromFile(args[0]);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            System.exit(1);
+        }
+    }
 	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
@@ -79,6 +92,32 @@ public class TestCase {
 	}
 	if(c == 0) { System.out.println("TestCase OK"); }
 	else { throw new AssertionError(); }
+    }
+
+    public static void FrequenceTestFromFile(String path) throws FileNotFoundException {
+        FrequencerInterface myObject = new s4.T000006.Frequencer();
+        System.out.println("checking " + Frequencer.class.getTypeName() + " with : " + path);
+        File file = new File(path);
+        try (BufferedReader reader = new BufferedReader( new FileReader(file))){
+            String line;
+            while((line = reader.readLine()) != null){
+                //System.out.print(line);
+                if (line.isEmpty()) continue;
+                String[] sp = line.split("\t");
+                myObject.setSpace(sp[0].getBytes());
+                myObject.setTarget(sp[1].getBytes());
+                int freq = (myObject.frequency());
+                if (freq != Integer.parseInt(sp[2])){
+                    throw new AssertionError(line + "\tactual\t" + freq);
+                }
+                System.out.println("passed : " + line + "\t" + freq);
+            }
+        } catch(FileNotFoundException e) {
+            System.out.println(e);
+            throw e;
+        } catch(IOException e) {
+            System.out.println(e);
+        }
     }
 }	    
 	    
