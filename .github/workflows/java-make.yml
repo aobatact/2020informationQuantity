@@ -19,5 +19,5 @@ jobs:
         java-version: 1.8
     - name: build-make
       run:
-        cd  s4/T000006
-        make
+        cd s4/T000006
+        make runTestCase
